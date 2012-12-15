@@ -59,23 +59,47 @@ $(function () {
 
     $testAllBtn.click(function () {
         var source = $source.val(),
-            match, resultStr = '',
+            match, resultStr = '', regexp,
+            classObj = {},
+            codeStr,
+            className,
+            propertys = [],
             i, len, params = $params.val(),
             regData = $regexp.val();
         initRegExp(regData, params);
         for (var key in regexpConfig) {
             if (regexpConfig.hasOwnProperty(key)) {
-                match = source.match(regexpConfig[key]);
+                regexp = regexpConfig[key];
+                match = source.match(regexp);
                 len = match.length;
                 resultStr += '\n***[' + key + '共有' + len + '个]****\n';
                 for (i = 0; i < len; i++) {
                     resultStr += match[i] + '\n';
+                    if (key === 'various') {
+                        propertys.push(getProperty(match[i], regexp));
+                    } else if (key === 'class') {
+                        className = getClassName(match[i], regexp);
+                    }
                 }
+
             }
         }
         $result.html(resultStr);
+        classObj.className = className;
+        classObj.propertys = propertys;
+        codeStr = generateCode(classObj);
+        $code.html(codeStr);
     });
 
+    function getProperty(data, regex) {
+        data.match(regex);
+        return RegExp.$4;
+    }
+
+    function getClassName(data, regex) {
+        data.match(regex);
+        return RegExp.$2;
+    }
     function initRegExp(data, params) {
         var i, len, lines, value, line, pos, key;
         lines = data.split('\n');
@@ -86,5 +110,23 @@ $(function () {
             value = line.substr(pos + 1).trim();
             regexpConfig[key] = new RegExp(value, params);
         }
+    }
+
+    function generateCode(classObj) {
+        var propertys, property, codeStr, arrayStr = '',
+            arrBlock = '[<%=array%>]',
+            objblock = '{name:"<%=name%>"}';
+        if (!classObj) {
+            return;
+        }
+        codeStr = "case " + classObj.className + ':\nfield = <%=fieldArray%>';
+        propertys = classObj.propertys;
+        for (var i = 0; i < propertys.length; i++) {
+            property = propertys[i];
+            arrayStr += objblock.replace('<%=name%>', property) + ',\n';
+        }
+        arrBlock = arrBlock.replace('<%=array%>', arrayStr);
+        codeStr = codeStr.replace('<%=fieldArray%>', arrBlock);
+        return codeStr;
     }
 });
