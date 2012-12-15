@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<head >
+    <title>正则表达式转化java文件</title>
+    
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <style type="text/css">
+      .wrapper {
+        width: 600px; padding: 10px;
+      }
+      .wrapper > textarea {
+        display: block;
+      }
+      .wrapper > input {
+        margin: 5px 0px;
+      }
+      #source,#result,#code,#template {
+        height:200px; 
+        width:100%;
+        margin: 10px auto;
+        padding: 5px; 
+        -webkit-box-shadow:0px 0px 5px #CCC; }
+      #regex {width:100%;}
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+  <textarea  id="source"></textarea>
+  <textarea  id="regex"></textarea><br>
+  参数:<input type="text" id="params"></input>
+  <button id="test">逐行测试</button>
+  <button id="test-all">全文本测试</button>
+  <textarea  id="result"></textarea>
+  template:<br>
+  <textarea  id="template"></textarea>
+  code:<br>
+  <textarea  id="code"></textarea>
+</div>
+</body>
+<script type="text/javascript" src="js/lib/jquery.js"></script>
+<script type="text/javascript" src="js/dto2datastore.js"></script>
+</html>

@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>facebook loading</title>
+    <script type="text/javascript" src="http://192.168.113.243:8080/target/target-script-min.js#anonymous"></script>
 </head>
 <style type="text/css">
 #loader{
@@ -218,6 +219,16 @@ body{
 .wrapper{
   text-align:center;
 }
+
+@keyframes color {
+  from { background: #cc0 }
+  to { background: #079 }
+}
+
+#sdiv {
+  height: 100px; width: 300px;
+  animation: color 3s infinite;
+}
 </style>
 <body>
 
@@ -226,6 +237,7 @@ body{
   
   <div id="loader"></div>
   <a href="https://s-static.ak.facebook.com/rsrc.php/v2/yk/r/LOOn0JtHNzb.gif">Original *.gif</a>
+  <div id="sdiv"></div>
 </div>
 
 </body>

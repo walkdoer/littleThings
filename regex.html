@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<head >
+    <title>正则表达式测试</title>
+    <script type="text/javascript" src="js/lib/jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <style type="text/css">
+      .wrapper {
+        width: 600px; padding: 10px;
+      }
+      .wrapper > textarea {
+        display: block;
+      }
+      #source,#result {
+        height:200px; 
+        width:100%;
+        padding: 5px; 
+        -webkit-box-shadow:0px 0px 5px #CCC; }
+      #regex {width:100%;}
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+  <textarea  id="source"></textarea>
+  <input type="text" id="regex"></input><br>
+  参数:<input type="text" id="params"></input>
+  <button id="test">逐行测试</button>
+  <button id="test-all">全文本测试</button>
+  <textarea  id="result"></textarea>
+</div>
+</body>
+<script type="text/javascript">
+$(function () {
+  var $regexp = $('#regex'),
+      $testBtn = $('#test'),
+      $testAllBtn = $('#test-all'),
+      $params = $('#params'),
+      $source = $('#source'),
+      $result = $('#result'),
+      regexp = 'regexp',
+      source = 'source',
+      params = 'params';
+  //初始化数据
+  $regexp.val(localStorage.getItem(regexp));
+  $params.val(localStorage.getItem(params));
+  $source.val(localStorage.getItem(source));
+  $source.on('keyup', function () {
+      localStorage.setItem(source,$source.val());
+  });
+  $regexp.on('keyup', function () {
+      localStorage.setItem(regexp,$regexp.val());
+  });
+  $params.on('keyup', function () {
+      localStorage.setItem(params,$params.val());
+  });
+  $testBtn.click(function () {
+      var source = $source.val(),
+          match,
+          lines, line,
+          isFind = false,
+          i, j, len,
+          resultStr = '',
+          params = $params.val(),
+          reg = new RegExp($regexp.val(),params);
+
+      lines = source.split('\n');
+      
+      $result.html('');
+      for (j = 0, len = lines.length; j < len; j++) {
+          line = lines[j];
+          match = line.match(reg);
+          if (match) {
+              isFind = true;
+              for (var i = 0; i < match.length; i++) {
+                  resultStr += '\n-------match[' + i + ']----[' + RegExp.$4+ ']-\n';
+              }; 
+          }
+      }
+      if (isFind) {
+          $result.html(resultStr);
+      } else {
+          $result.html('find nothing');
+      }
+
+  });
+
+  $testAllBtn.click(function () {
+      var source = $source.val(),
+          match,
+          lines, line,
+          resultStr = '',
+          i,
+          params = $params.val(),
+          reg = new RegExp($regexp.val(),params);
+          match = source.match(reg);
+          if (match) {
+              for (var i = 0; i < match.length; i++) {
+                  resultStr += '\n-------match[' + i + ']-----\n' + match[i];
+              };
+              $result.html(resultStr);
+          } else {
+              $result.html('find nothing');
+          }
+
+  });
+});
+</script>
+</html>
