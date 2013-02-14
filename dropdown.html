@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<head >
+    <title>Drop down Demo</title>
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <style type="text/css">
+      .dropdown ul{
+        width: 300px;
+        list-style-type: none;
+        margin: 0px auto;
+        padding: 0px;
+        display: block;
+        position: relative;
+      }
+      .dropdown > span{
+        display: block;
+        margin: 20px auto;
+        height: 30px;
+        width: 150px;
+        line-height: 30px;
+      }
+      .dropdown ul li {
+        background: #c29ad2;
+        color: #FFF;
+        height: 50px;
+        width: 300px;
+        line-height: 50px;
+        text-indent: 15px;
+        margin-bottom: 15px;
+        opacity: 0;
+        -webkit-transform: none;
+        -webkit-transition: all 300ms ease;
+      }
+
+    </style>
+</head>
+<body>
+
+<div class="dropdown">
+  <span>show lists</span>
+  <ul>
+    <li>meet iris</li>
+    <li>meet iris</li>
+    <li>meet iris</li>
+    <li>meet iris</li>
+    <li>meet iris</li>
+  </ul>
+</div>
+</body>
+<script type="text/javascript" src="js/lib/jquery.js"></script>
+<script type="text/javascript">
+    $(function () {
+        function css(a){
+            var sheets = document.styleSheets, o = {};
+            for(var i in sheets) {
+                var rules = sheets[i].rules || sheets[i].cssRules;
+                for(var r in rules) {
+                    if(a.is(rules[r].selectorText)) {
+                        o = $.extend(o, css2json(rules[r].style), css2json(a.attr('style')));
+                    }
+                }
+            }
+            return o;
+        }
+
+        function css2json(css){
+            var s = {};
+            if(!css) return s;
+            if(css instanceof CSSStyleDeclaration) {
+                for(var i in css) {
+                    if((css[i]).toLowerCase) {
+                        s[(css[i]).toLowerCase()] = (css[css[i]]);
+                    }
+                }
+            } else if(typeof css == "string") {
+                css = css.split("; ");          
+                for (var i in css) {
+                    var l = css[i].split(": ");
+                    s[l[0].toLowerCase()] = (l[1]);
+                };
+            }
+            return s;
+        }
+        function showOrhideList(isShow) {
+            if (isShow) {
+                list.css({
+                    opacity: 1,
+                    'margin-left': 0
+                });
+            } else {
+                list.each(function (i, val) {
+                    var li = $(val);
+                    i % 2 ? li.css({
+                        'margin-left': 100,
+                        opacity: 0
+                    }) : li.css({
+                        'margin-left': -100,
+                        opacity: 0
+                    });
+                });
+            }
+        }
+        var list = $('.dropdown>ul li'),
+            counter = 0;
+        list.each(function (i, val) {
+            var li = $(val);
+            i % 2 ? li.css({
+              'margin-left': 100
+            }) : li.css({
+              'margin-left': -100
+            });
+        });
+        $('.dropdown>span').click(function () {
+            showOrhideList(counter % 2 === 0);
+            counter += 1;
+        });
+    });
+    
+</script>
+</html>
