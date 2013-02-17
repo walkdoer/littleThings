@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<head >
+    <title>Drop down Demo</title>
+    <style>
+      body { font-family: Georgia, serif; }
+      .red { color: red; }
+      .black { color: black; }
+      .bold { font-weight: bold; }
+      .normal { font-weight: normal; }
+      .big { font-size: 24px; }
+      .small { font-size: 13px; }
+    </style>
+</head>
+<body>
+<div id="msg">##########</div>
+<div id="msg2">##########</div>
+</body>
+<script type="text/javascript" src="js/lib/jquery.js"></script>
+<script type="text/javascript" src="js/amd.js"></script>
+<script type="text/javascript">
+require(['demo:math', 'demo:string', 'demo:dom'], function (math, string, dom) {
+    var node = dom.byId('msg'),
+    	node2 = dom.byId('msg2');
+    dom.removeClass(node, 'big');
+    dom.addClass(node, 'small');
+    dom.addClass(node, 'red');
+    node.innerHTML = string.concat(math.add(1, 2, 3, 4, 5), '--', math.multiply(4, 2, 5, 0.3));
+    node2.innerHTML = 'this is from amd require and defined, 修改自网上的程序';
+});
+</script>
+</html>
